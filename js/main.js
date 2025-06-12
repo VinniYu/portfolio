@@ -17,15 +17,20 @@ function showSection(sectionId) {
 
 		setTimeout(() => {
 			// smoothly move nav to fixed 30px from top
-			nav.style.transform = `translateY(calc(-1 * (100vh / 2 - 30px)))`;
+			nav.style.transform = `translateY(calc(-1 * (100vh / 2 - 40px)))`;
 			nav.classList.add('moved');
+
+      document.querySelector('main').classList.remove('z-20');
+      document.getElementById('content').classList.add('z-20');
 
 			setTimeout(() => {
 				showOnlySection(sectionId);
 				isTransitioning = false;
 			}, 500);
 		}, 500);
-	} else {
+	} 
+  else 
+  {
 		isTransitioning = true;
 		showOnlySection(sectionId);
 		isTransitioning = false;
@@ -62,6 +67,10 @@ function goHome() {
 	setTimeout(() => {
 		header.classList.remove('opacity-0');
 		subtitle.classList.remove('opacity-0');
+
+    document.querySelector('main').classList.add('z-20');
+    document.getElementById('content').classList.remove('z-20');
+
 
 		setTimeout(() => {
 			isTransitioning = false;
