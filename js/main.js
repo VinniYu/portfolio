@@ -1,8 +1,8 @@
 let isTransitioning = false;
+let currentSection = null;
 
-function showSection() 
-{
-	if (isTransitioning) return;
+function showSection(sectionId) {
+	if (isTransitioning || currentSection === sectionId) return;
 
 	const header = document.getElementById('header-group');
 	const subtitle = document.getElementById('subtitle');
@@ -11,33 +11,51 @@ function showSection()
 	if (!nav.classList.contains('moved')) {
 		isTransitioning = true;
 
-		// Fade out header + subtitle
+		// fade out header + subtitle
 		header.classList.add('opacity-0');
 		subtitle.classList.add('opacity-0');
 
 		setTimeout(() => {
-			const offset = nav.getBoundingClientRect().top - 45;
-			nav.style.transform = `translateY(-${offset}px)`;
+			// smoothly move nav to fixed 30px from top
+			nav.style.transform = `translateY(calc(-1 * (100vh / 2 - 30px)))`;
 			nav.classList.add('moved');
 
-			// Unlock after nav finishes moving
 			setTimeout(() => {
+				showOnlySection(sectionId);
 				isTransitioning = false;
-			}, 500); // match nav movement duration
-		}, 500); // match fade-out duration
+			}, 500);
+		}, 500);
+	} else {
+		isTransitioning = true;
+		showOnlySection(sectionId);
+		isTransitioning = false;
 	}
 }
 
-function goHome() 
-{
+function showOnlySection(id) {
+	const allSections = document.querySelectorAll('#content > div');
+	allSections.forEach(sec => sec.classList.add('hidden'));
+
+	const target = document.getElementById(id);
+	if (target) {
+		target.classList.remove('hidden');
+		currentSection = id;
+	}
+}
+
+function goHome() {
 	if (isTransitioning) return;
-  
+
 	const header = document.getElementById('header-group');
 	const subtitle = document.getElementById('subtitle');
 	const nav = document.getElementById('nav');
 
 	isTransitioning = true;
 
+	showOnlySection(null);
+	currentSection = null;
+
+	// smoothly move nav back to center
 	nav.style.transform = 'translateY(0)';
 	nav.classList.remove('moved');
 
@@ -45,9 +63,9 @@ function goHome()
 		header.classList.remove('opacity-0');
 		subtitle.classList.remove('opacity-0');
 
-		// Unlock after header fades in
 		setTimeout(() => {
 			isTransitioning = false;
-		}, 500); // match fade-in duration
-	}, 500); // match nav slide duration
+		}, 500);
+	}, 500);
 }
+
