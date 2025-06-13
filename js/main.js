@@ -1,6 +1,7 @@
 let isTransitioning = false;
 let currentSection = null;
 
+
 function showSection(sectionId) {
 	if (isTransitioning || currentSection === sectionId) return;
 
