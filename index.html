@@ -20,6 +20,16 @@
 				}
 			</script>
 
+			<style>
+				.custom-scroll::-webkit-scrollbar {
+					display: none;
+				}
+				.custom-scroll {
+					-ms-overflow-style: none;  /* IE 10+ */
+					scrollbar-width: none;     /* Firefox */
+				}
+			</style>
+
 			<title>Vinni Yu - Portfolio</title>
 		</head>
 
@@ -90,21 +100,26 @@
 			
 			<!-- ABOUT -->
 			<div id="about-section" class="hidden">
-				<div class="flex flex-col md:flex-row items-center justify-between gap-6 mt-6 max-w-3xl mx-auto ">
+				<div class="flex flex-col md:flex-row items-center justify-between gap-6 mt-6 max-w-4xl mx-auto ">
 					<!-- text (left side) -->
-					<div class="md:w-1/2 text-center relative">
-						<div class="max-h-80 overflow-y-scroll pr-2 custom-scroll">
+					<div class="md:w-1/2 relative">
+						<div class="max-h-100 overflow-y-scroll pr-2 custom-scroll">
 							<div class="pb-6">
-								<h1 class="text-2xl font-bold mb-1">Hi!</h1>
-								<p class="text-base leading-relaxed mb-4">
-									My name is Vinni Yu and I'm currently a student-athlete with a deep love for clean code, creative expression,
-									and my dogs! I like to build things - from simulations, home projects, to playful ideas.
+								<h1 class="text-2xl font-bold mb-1">Hi there!</h1>
+								<p class="text-base text-left leading-relaxed mb-4">
+									My name is Vinni Yu, I'm a student-athlete at Yale University pursuing a double major in Computer Science
+									and in Electrical & Computer Engineering. Ever since I was young, I loved to take things apart and inspect
+									their inner workings. Now, I have a passion for building things up from scratch ranging from software 
+									engineering, embedded hardware, and through art!
 								</p>
 
-								<h1 class="text-2xl font-bold mb-1">Education</h1>
-								<p class="text-base leading-relaxed mb-2">
-									I am currently pursuing a B.S. in Computer Science and a B.S. in 
-									Electrical & Computer Engineering from Yale University, expected in 2026.
+								<p class="text-base text-left leading-relaxed mb-2">
+									In addition to my love of technology and creation, I am a huge movie fan (contact me for reccomendations!)
+									and I love to exercise, learn, and eat.
+								</p>
+
+								<p class="text-base text-left leading-relaxed mb-2">
+									Please check out some of the projects I have developed during my time as a creator!
 								</p>
 
 								<!-- <h1 class="text-2xl font-bold mb-1">About</h1>
@@ -123,8 +138,63 @@
 			</div>
 
 			<!-- PROJECTS -->
-			<div id="projects-section" class="hidden">
-				Projects
+			<div id="projects-section" class="hidden flex justify-center items-center min-h-screen px-6">
+				<div class="max-h-[600px] max-w-5xl overflow-y-scroll p-4 bg-[#e6e6e6] w-full">
+					
+					<!-- Grid wrapper -->
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-6 justify-items-center">
+						
+						<!-- CS 510 SPH Simulation -->
+						<div 
+							onclick="openProject('sph')"
+							class="cursor-pointer h-[275px] w-[500px] border border-gray-300 rounded-xl p-5 shadow-md hover:shadow-lg transition duration-300 bg-white flex flex-col justify-center items-center text-center"
+							style="background-image: url('assets/screenshots/sph.jpg');">
+
+							<h2 class="text-xl font-semibold mb-2">Smoothed Particle Hydrodynamics</h2>
+							<p class="flex flex-wrap gap-2 mt-2 justify-center">
+								<span class="bg-[#f3f3f3] text-gray-700 text-xs font-medium px-3 py-1 rounded-full">C++</span>
+								<span class="bg-[#f3f3f3] text-gray-700 text-xs font-medium px-3 py-1 rounded-full">OpenGL</span>
+								<span class="bg-[#f3f3f3] text-gray-700 text-xs font-medium px-3 py-1 rounded-full">GLSL</span>
+							</p>
+						</div>
+
+						<!-- Ray Marcher -->
+						<div 
+							onclick="openProject('raymarcher')"
+							class="cursor-pointer h-[275px] w-[500px] border border-gray-300 rounded-xl p-5 shadow-md hover:shadow-lg transition duration-300 bg-white flex flex-col justify-center items-center text-center">
+							<h2 class="text-xl font-semibold mb-2">GPU Ray-Marcher</h2>
+							<p class="flex flex-wrap gap-2 mt-2 justify-center">
+								<span class="bg-[#f3f3f3] text-gray-700 text-xs font-medium px-3 py-1 rounded-full">C++</span>
+								<span class="bg-[#f3f3f3] text-gray-700 text-xs font-medium px-3 py-1 rounded-full">OpenGL</span>
+								<span class="bg-[#f3f3f3] text-gray-700 text-xs font-medium px-3 py-1 rounded-full">GLSL</span>
+							</p>
+						</div>
+
+						<!-- CoVimmune -->
+						<div 
+							onclick="openProject('covimmune')"
+							class="cursor-pointer h-[275px] w-[500px] border border-gray-300 rounded-xl p-5 shadow-md hover:shadow-lg transition duration-300 bg-white flex flex-col justify-center items-center text-center">
+							<h2 class="text-xl font-semibold mb-2">CoVimmune</h2>
+							<p class="flex flex-wrap gap-2 mt-2 justify-center">
+								<span class="bg-[#f3f3f3] text-gray-700 text-xs font-medium px-3 py-1 rounded-full">Python</span>
+								<span class="bg-[#f3f3f3] text-gray-700 text-xs font-medium px-3 py-1 rounded-full">HTML</span>
+								<span class="bg-[#f3f3f3] text-gray-700 text-xs font-medium px-3 py-1 rounded-full">CSS</span>
+							</p>
+						</div>
+
+						<!-- CS 578 Rasterizer and Ray Tracer -->
+						<div 
+							onclick="openProject('cpu-render')"
+							class="cursor-pointer h-[275px] w-[500px] border border-gray-300 rounded-xl p-5 shadow-md hover:shadow-lg transition duration-300 bg-white flex flex-col justify-center items-center text-center">
+							<h2 class="text-xl font-semibold mb-2">CPU Rasterizer & Ray-Tracer</h2>
+							<p class="flex flex-wrap gap-2 mt-2 justify-center">
+								<span class="bg-[#f3f3f3] text-gray-700 text-xs font-medium px-3 py-1 rounded-full">C++</span>
+								<span class="bg-[#f3f3f3] text-gray-700 text-xs font-medium px-3 py-1 rounded-full">PPM Output</span>
+							</p>
+						</div>
+
+					</div>
+				</div>
 			</div>
 
 			<!-- RESUME -->
@@ -181,7 +251,24 @@
 					email: vinni0526@gmail.com
 				</h2>
 			</div>
+
+			<!-- PROJECT DETAILS -->
+			<div id="project1" class="hidden px-6 py-10 max-w-4xl mx-auto">
+				<h1 class="text-3xl font-bold mb-4">Project Name 1</h1>
+				<p class="mb-4 text-gray-700">
+					Detailed description of the project: purpose, technologies used, challenges, what you learned, etc.
+				</p>
+				<button 
+					onclick="closeProject('project1')" 
+					class="mt-4 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-md"
+				>
+					Back to Projects
+				</button>
+			</div>
 		</div>
+
+		
+
 
 		<script src="js/main.js"></script>
 	</body>

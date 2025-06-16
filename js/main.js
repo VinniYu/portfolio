@@ -79,3 +79,12 @@ function goHome() {
 	}, 500);
 }
 
+function openProject(projectId) {
+  document.getElementById('projects-section').classList.add('hidden');
+  document.getElementById(projectId).classList.remove('hidden');
+}
+
+function closeProject(projectId) {
+  document.getElementById(projectId).classList.add('hidden');
+  document.getElementById('projects-section').classList.remove('hidden');
+}
