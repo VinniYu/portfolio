@@ -15,7 +15,7 @@ export default function Home() {
   });
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center">
+    <main className="min-h-screen overflow-hidden flex flex-col items-center justify-center">
       <Link href="/">
         <img
           src="/images/face_icon.png"

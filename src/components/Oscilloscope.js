@@ -63,12 +63,19 @@ export default function Oscilloscope() {
     const ctx = canvas.getContext("2d");
 
     const resizeCanvas = () => {
-      const { width, height } = canvas.getBoundingClientRect();
-			const dpr = window.devicePixelRatio || 1;
-			canvas.width = width * dpr;
-			canvas.height = height * dpr;
-			ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // scale context
+      const rect = canvas.getBoundingClientRect();
+      const realWidth = rect.width;
+      const realHeight = rect.height;
+
+      const baseWidth = 1000;
+      const baseHeight = 666.67;
+
+      canvas.width = baseWidth;
+      canvas.height = baseHeight;
+
+      ctx.setTransform(realWidth / baseWidth, 0, 0, realHeight / baseHeight, 0, 0);
     };
+
 
     resizeCanvas();
     const debouncedResize = debounce(resizeCanvas, 100);
@@ -80,25 +87,34 @@ export default function Oscilloscope() {
 		let animationId;
 
     const draw = () => {
-      const width = canvas.width;
-      const height = canvas.height;
-      ctx.clearRect(0, 0, width, height);
+      const rect = canvas.getBoundingClientRect();
+      const realWidth = rect.width;
+      const realHeight = rect.height;
+
+      const baseWidth = 1000; // Logical width
+      const baseHeight = 666.67; // Logical height (3:2)
+
+      const scaleX = realWidth / baseWidth;
+      const scaleY = realHeight / baseHeight;
+      ctx.setTransform(scaleX, 0, 0, scaleY, 0, 0);
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // CRT display parameters
-			const rectWidth = 260;
-			const rectHeight = 210;
-			const rectX = (width - rectWidth) / 2;
-			const rectY = (height - rectHeight) / 2;
+			const rectX = 42  ;    // in logical units
+      const rectY = 55;
+      const rectWidth = 250;
+      const rectHeight = 190;
 
 			// draw CRT rectangle fill BEFORE the wave
 			ctx.fillStyle = "#4e8780";
-			drawCRTRectangle(ctx, rectX, rectY, rectWidth, rectHeight, 20, 10);
+			drawCRTRectangle(ctx, rectX, rectY, rectWidth, rectHeight, 20, 5);
 			ctx.save();
 
 			// define the clipping path
 			ctx.beginPath();
 			drawCRTRectangle(ctx, rectX, rectY, rectWidth, rectHeight, 20, 10);
-			ctx.clip(); // ✅ now all future drawing is clipped to this shape
+			ctx.clip(); // now all future drawing is clipped to this shape
 
 			// horizontal guide line
 			ctx.beginPath();
@@ -127,37 +143,46 @@ export default function Oscilloscope() {
 			// draw sine wave — clipped to CRT shape
 			ctx.beginPath();
 			let firstY;
-			for (let x = 0; x < width; x++) {
-				let y;
-				switch (waveType) {
-					case "sine":
-						y = height / 2 + Math.sin((x + frame) * 0.08) * (height / 4);
-						ctx.lineWidth = 5;
-						break;
-					case "square":
-						y = height / 2 + (Math.sin((x + frame) * 0.08) > 0 ? 1 : -1) * (height / 4);
-						ctx.lineWidth = 4;
-						break;
-					case "sawtooth":
-						y = height / 2 + ((x + frame) % 100) / 100 * (height / 2) - (height / 4);
-						ctx.lineWidth = 5;
-						break;
-					case "sumsine":
-						y = height / 2 + Math.sin((x + frame) * 0.08) * (height / 4) 
-								+ Math.sin((x + frame) * 0.04) * (height / 10)
-								+ Math.sin((x + frame) * 0.02) * (height / 10);
-						ctx.lineWidth = 5;
-						break;
-					default:
-						y = height / 2;
-				}
+			const sampleCount = 400; // resolution of waveform
+      const paddingX = 50;
 
-				if (x === 0) {
-					ctx.moveTo(x, y);
-				} else {
-					ctx.lineTo(x, y);
-				}
-			}
+      for (let i = 0; i < sampleCount; i++) {
+        const normX = i / (sampleCount - 1);
+        const x = rectX - paddingX + normX * (rectWidth + 2 * paddingX); // scaled to the CRT area
+
+        let y;
+        switch (waveType) {
+          case "sine":
+            y = rectY + rectHeight / 2 + Math.sin((i + frame) * 0.08) * (rectHeight / 2.5);
+            ctx.lineWidth = 4;
+            break;
+          case "square":
+            y = rectY + rectHeight / 2 + (Math.sin((i + frame) * 0.08) > 0 ? 1 : -1) * (rectHeight / 2.5);
+            ctx.lineWidth = 4;
+            break;
+          case "sawtooth":
+            const sawPeriod = 120; // smaller = higher frequency
+            const normalizedSaw = ((i + frame) % sawPeriod) / sawPeriod; // 0 → 1
+            y = rectY + rectHeight / 2 + (normalizedSaw - 0.5) * (rectHeight / 2); // 0.5x amplitude
+            ctx.lineWidth = 4;
+            break;
+          case "sumsine":
+            y = rectY + rectHeight / 2 
+                + Math.sin((i + frame) * 0.08) * (rectHeight / 3) 
+                + Math.sin((i + frame) * 0.04) * (rectHeight / 10)
+                + Math.sin((i + frame) * 0.02) * (rectHeight / 10);
+            ctx.lineWidth = 4;
+            break;
+          default:
+            y = rectY + rectHeight / 2;
+        }
+
+        if (i === 0) {
+          ctx.moveTo(x, y);
+        } else {
+          ctx.lineTo(x, y);
+        }
+      }
 
 
 			ctx.strokeStyle = "#e5f3a5";
@@ -183,7 +208,7 @@ export default function Oscilloscope() {
   return (
     <div 
 		onContextMenu={(e) => e.preventDefault()}
-		className="relative w-full max-w-[600px] aspect-[3/2] mx-auto"
+		className="relative w-full max-w-[550px] aspect-[3/2] mx-auto"
 		>
       {/* Oscilloscope background image */}
 			<img
@@ -196,16 +221,63 @@ export default function Oscilloscope() {
 			{/* CRT background display animation */}
       <canvas
         ref={canvasRef}
-        className="absolute top-[13.5%] left-[7.5%] w-[51%] h-[60%] pointer-events-none"
+        className="absolute inset-0 pointer-events-none"
       />
 
-			{/* invisible buttons for interactivity */}
-      <button
-        onClick={handleCycle}
-        className="absolute top-[15%] left-[63%] w-[15%] h-[22%] z-250 rounded-full cursor-pointer"
-        aria-label="Cycle waveform"
-        title="Click to cycle waveform"
-      />
+			{/* cycle waveforms button */}
+      <div
+        className="absolute"
+        style={{
+          left: `${(630 / 1000) * 100}%`,     // 205 is x, 1000 is logical width
+          top: `${(103 / 666.67) * 100}%`,    // 120 is y, 666.67 is logical height
+          width: `${(145 / 1000) * 100}%`,    // button width
+          height: `${(145 / 666.67) * 100}%`,  // button height
+        }}
+      >
+        <button
+          onClick={handleCycle}
+          className="w-full h-full z-250 rounded-full cursor-pointer"
+          aria-label="Cycle waveform"
+          title="Click to cycle waveform"
+        />
+      </div>
+
+      {/* add noise button */}
+      <div
+        className="absolute"
+        style={{
+          left: `${(642 / 1000) * 100}%`,     // 205 is x, 1000 is logical width
+          top: `${(285 / 666.67) * 100}%`,    // 120 is y, 666.67 is logical height
+          width: `${(125 / 1000) * 100}%`,    // button width
+          height: `${(125 / 666.67) * 100}%`,  // button height
+        }}
+      >
+        <button
+          onClick={handleCycle}
+          className="w-full h-full z-250 rounded-full cursor-pointer"
+          aria-label="Add noise"
+          title="Click to add noise"
+        />
+      </div>
+
+      {/* power button */}
+      <div
+        className="absolute"
+        style={{
+          left: `${(665 / 1000) * 100}%`,     // 205 is x, 1000 is logical width
+          top: `${(470 / 666.67) * 100}%`,    // 120 is y, 666.67 is logical height
+          width: `${(80 / 1000) * 100}%`,    // button width
+          height: `${(80 / 666.67) * 100}%`,  // button height
+        }}
+      >
+        <button
+          onClick={handleCycle}
+          className="w-full h-full z-250 rounded-full cursor-pointer"
+          aria-label="Power"
+          title="Click to toggle power"
+        />
+      </div>
+
     </div>
   );
 }
