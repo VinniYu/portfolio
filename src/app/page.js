@@ -23,6 +23,12 @@ export default function Home() {
           className="fixed top-10 left-10 w-15 h-22.5 z-500 cursor-pointer"
         />
       </Link>
+
+      <img
+        src="/images/light_toggle.png"
+        alt="theme_switcher"
+        className="fixed top-10 right-10 w-20 h-20 z-500 cursor-pointer"
+      />
       
       <nav className="fixed top-0 left-0 w-full flex justify-center text-[25px] gap-8 px-10 py-15 font-hillstown z-50">
         {["about", "resume", "projects", "contact"].map((section) => (
