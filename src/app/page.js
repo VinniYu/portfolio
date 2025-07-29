@@ -1,11 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Oscilloscope from "@/components/Oscilloscope";
+import ContactForm from "@/components/ContactForm";
+
 
 export default function Home() {
   const [hoveredLink, setHoveredLink] = useState(null);
+  const [activeSection, setActiveSection] = useState("home");
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.slice(1); // Remove the "#"
+      setActiveSection(hash || "home");
+    };
+
+    // Run on first load
+    handleHashChange();
+
+    window.addEventListener("hashchange", handleHashChange);
+    window.addEventListener("popstate", handleHashChange); // <-- handles back/forward
+
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+      window.removeEventListener("popstate", handleHashChange);
+    };
+  }, []);
 
   const shadowStyle = (link) => ({
     textShadow:
@@ -16,11 +37,12 @@ export default function Home() {
 
   return (
     <main className="min-h-screen overflow-hidden flex flex-col items-center justify-center">
-      <Link href="/">
+      <Link href="#home" scroll={false}>
         <img
           src="/images/face_icon.png"
           alt="Site Icon"
           className="fixed top-10 left-10 w-15 h-22.5 z-500 cursor-pointer"
+          onClick={() => setActiveSection("home")} // force re-render
         />
       </Link>
 
@@ -44,21 +66,59 @@ export default function Home() {
         ))}
       </nav>
 
-      <h1 className="m-0 text-[200px] leading-none font-dalton tracking-normal big-text-shadow">
-        VINNI YU
-      </h1>
-      <p className="mb-80 text-[35px] font-hillstown small-text-shadow">
-        Software · Embedded · Graphics
-      </p>
+      {activeSection === "home" && (
+        <>
+          <h1 className="m-0 text-[200px] leading-none font-dalton tracking-normal big-text-shadow">
+            VINNI YU
+          </h1>
+          <p className="mb-80 text-[35px] font-hillstown small-text-shadow">
+            Software · Embedded · Graphics
+          </p>
+          <div className="absolute bottom-[70px] w-full flex justify-center z-250">
+            <Oscilloscope />
+          </div>
+        </>
+      )}
 
-      <div className="absolute bottom-[30px] w-full flex justify-center z-250">
-        <Oscilloscope />
-      </div>
+      {activeSection === "about" && (
+        <>     
+          <div className="max-w-[1100px] ml-[-250px] px-10 pr-[100px]">   
+            <h1 className="text-[120px] leading-none font-dalton tracking-normal big-text-shadow">
+              ABOUT ME
+            </h1>
 
-      <footer className="fixed bottom-0 w-full bg-[#ffeda9] text-[#3f6565] py-10 px-6 text-center font-hillstown z-50">
-        <p>
-          {/* Made with ☕ and solder · vinniyu.dev */}
-        </p>
+            <div className="text-[#f8f3e8] text-[27px] font-hillstown text-justify small-text-shadow">
+              I'm Vinni Yu, a developer studying Computer Science and Electrical Engineering at Yale. 
+              I focus on low-level systems, computer graphics, and AI 
+              — building projects like GPU-based simulations, trading engines, 
+              and neural tools that prioritize clarity, performance, and thoughtful design.
+            </div>
+          </div>
+
+          <img
+            src="/images/iced_americano.png"
+            alt="Americano"
+            className="fixed bottom-[49px] right-[35px] w-[350px] h-auto z-500"
+          />
+        </>
+      )}
+
+      {activeSection === "resume" && (
+        <div className="text-[#f8f3e8] text-[30px] font-hillstown mt-40">Resume section here</div>
+      )}
+
+      {activeSection === "projects" && (
+        <div className="text-[#f8f3e8] text-[30px] font-hillstown mt-40">Projects section here</div>
+      )}
+
+      {activeSection === "contact" && (
+        <div className="flex justify-center items-center">
+          <ContactForm />
+        </div>
+      )}
+
+      <footer className="fixed bottom-0 w-full bg-[#ffeda9] text-[#3f6565] py-17 px-6 text-center font-hillstown z-50">
+
       </footer>
     </main>
   );
