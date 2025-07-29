@@ -91,7 +91,7 @@ export default function ProjectCarousel() {
                 <img
                   src={project.image}
                   alt={project.name}
-                  className="absolute top-[80px] left-[20px] w-[460px] h-[300px]  rounded-lg shadow-md"
+                  className="absolute top-[80px]  w-auto h-[300px] rounded-lg shadow-md"
                   draggable="false"
                 />
                 
@@ -137,20 +137,19 @@ export default function ProjectCarousel() {
 
       {/* Markdown Viewer */}
       {selectedIndex !== null && (
-        <div className="fixed inset-0 z-[9999] bg-black/30 backdrop-blur-sm flex items-center justify-center">
-          {/* Sticky close button OUTSIDE scroll area */}
-          <button
-            onClick={() => {
-              setSelectedIndex(null);
-              setMarkdown("");
-            }}
-            className="fixed top-6 left-6 z-[10000] text-6xl font-bold text-white hover:text-red-500"
-          >
-            ×
-          </button>
+        <div
+          className="fixed inset-0 z-[9999] bg-black/30 backdrop-blur-sm flex items-center justify-center"
+          onClick={() => {
+            setSelectedIndex(null);
+            setMarkdown("");
+          }}
+        >
 
           {/* Scrollable document */}
-          <div className="relative w-[90%] max-w-[900px] max-h-[90%] bg-white text-black p-8 rounded-lg shadow-xl overflow-y-auto">
+          <div
+            className="relative w-[90%] max-w-[900px] max-h-[90%] bg-white text-black p-8 rounded-lg shadow-xl overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="prose prose-lg prose-neutral mx-auto markdown"
                  style={{ lineHeight: "1.3", marginBottom: "0.3rem" }}>
               <ReactMarkdown

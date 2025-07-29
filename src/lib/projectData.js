@@ -18,10 +18,10 @@ export const projects = [
     folder: "sunglare",
   },
   {
-    name: "Ray Tracer",
-    image: "/projects/raytracer/preview.png",
-    markdown: "/projects/sph/README.md",
-    folder: "raytracer",
+    name: "EfficientNet Chess Engine",
+    image: "/projects/chess/preview.png",
+    markdown: "/projects/chess/README.md",
+    folder: "chess",
   },
 
   // Add more as needed

@@ -107,7 +107,18 @@ export default function Home() {
       )}
 
       {activeSection === "resume" && (
-        <div className="text-[#f8f3e8] text-[30px] font-hillstown mt-40">Resume section here</div>
+        <div className="w-full h-screen flex flex-col items-center justify-center px-4 z-500">
+          {/* Resume viewer */}
+          <div className="w-[900px] h-[600px] mt-8 border-4 border-[#f8f3e8] shadow-2xl overflow-hidden rounded-lg">
+            <iframe
+              src="/resume.pdf"
+              title="Resume PDF"
+              className="w-full h-full"
+            />
+          </div>
+
+          
+        </div>
       )}
 
       {activeSection === "projects" && (
