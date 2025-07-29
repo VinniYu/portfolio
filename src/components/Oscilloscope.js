@@ -207,9 +207,11 @@ export default function Oscilloscope() {
 
   return (
     <div 
-		onContextMenu={(e) => e.preventDefault()}
-		className="relative w-full max-w-[550px] aspect-[3/2] mx-auto"
-		>
+      onContextMenu={(e) => e.preventDefault()}
+      className="relative w-full max-w-[550px] aspect-[3/2] mx-auto"
+    >
+      
+  
       {/* Oscilloscope background image */}
 			<img
         src="/images/oscilloscope.png"
@@ -277,6 +279,8 @@ export default function Oscilloscope() {
           title="Click to toggle power"
         />
       </div>
+
+      
 
     </div>
   );

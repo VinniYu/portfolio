@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Oscilloscope from "@/components/Oscilloscope";
 import ContactForm from "@/components/ContactForm";
+import MusicPlayer from "@/components/MusicPlayer";
+import ProjectCarousel from "@/components/ProjectCarousel";
 
 
 export default function Home() {
@@ -74,6 +76,7 @@ export default function Home() {
           <p className="mb-80 text-[35px] font-hillstown small-text-shadow">
             Software · Embedded · Graphics
           </p>
+          
           <div className="absolute bottom-[70px] w-full flex justify-center z-250">
             <Oscilloscope />
           </div>
@@ -108,13 +111,34 @@ export default function Home() {
       )}
 
       {activeSection === "projects" && (
-        <div className="text-[#f8f3e8] text-[30px] font-hillstown mt-40">Projects section here</div>
+        <div className="w-full mt-20">
+          <ProjectCarousel />
+
+          <div className="fixed right-[10px] bottom-[113px] z-100">
+            {/* file cabinet image */}
+            <img
+                src="/images/file_cabinet.png"
+                alt="Music Player"
+                className="w-[320px] h-auto"
+                draggable="false"
+            />
+          </div>
+        </div>
       )}
 
       {activeSection === "contact" && (
-        <div className="flex justify-center items-center">
-          <ContactForm />
-        </div>
+        <>
+          <div className="flex flex-col justify-center items-center">
+            <ContactForm />
+            
+            <p className="mt-[4px] text-[#256662] font-hillstown align-center">
+              Email: vinni0526@gmail.com <br />
+              Phone: +1 (551) 252-2805
+            </p>
+          </div>
+
+          <MusicPlayer />
+        </>
       )}
 
       <footer className="fixed bottom-0 w-full bg-[#ffeda9] text-[#3f6565] py-17 px-6 text-center font-hillstown z-50">
