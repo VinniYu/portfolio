@@ -27,13 +27,23 @@ function drawCRTRectangle(ctx, x, y, width, height, radius = 20, bend = 10) {
   ctx.fill();
 }
 
-export default function Oscilloscope() {
+function pseudoNoise(i, frame, frequency = 0.2, amplitude = 5) {
+  return Math.sin(i * frequency + frame * 0.1) * amplitude;
+}
+
+
+export default function Oscilloscope( { theme }) {
   const canvasRef = useRef(null);
 	const clickSoundRef = useRef(null);
 
+  // button states
 	const [waveTypeIndex, setWaveTypeIndex] = useState(0);
 	const waveTypes = ["sine", "square", "sawtooth", "sumsine"];
 	const waveType = waveTypes[waveTypeIndex];
+
+  const [noiseEnabled, setNoiseEnabled] = useState(false);
+  const [powerOn, setPowerOn] = useState(true);
+
 	
 	useEffect(() => {
     clickSoundRef.current = new Audio("/sounds/click.wav");
@@ -87,6 +97,8 @@ export default function Oscilloscope() {
 		let animationId;
 
     const draw = () => {
+      if (!powerOn) return;
+
       const rect = canvas.getBoundingClientRect();
       const realWidth = rect.width;
       const realHeight = rect.height;
@@ -142,9 +154,10 @@ export default function Oscilloscope() {
 
 			// draw sine wave — clipped to CRT shape
 			ctx.beginPath();
-			let firstY;
 			const sampleCount = 400; // resolution of waveform
       const paddingX = 50;
+      
+      const noise = noiseEnabled ? (Math.random() - 0.5) * 10 : 0;
 
       for (let i = 0; i < sampleCount; i++) {
         const normX = i / (sampleCount - 1);
@@ -152,27 +165,39 @@ export default function Oscilloscope() {
 
         let y;
         switch (waveType) {
-          case "sine":
-            y = rectY + rectHeight / 2 + Math.sin((i + frame) * 0.08) * (rectHeight / 2.5);
+          case "sine": {
+            const baseY = Math.sin((i + frame) * 0.08) * (rectHeight / 2.5);
+            const noiseY = noiseEnabled ? pseudoNoise(i, frame, 0.4, 8) : 0;
+            y = rectY + rectHeight / 2 + baseY + noiseY;
             ctx.lineWidth = 4;
             break;
-          case "square":
-            y = rectY + rectHeight / 2 + (Math.sin((i + frame) * 0.08) > 0 ? 1 : -1) * (rectHeight / 2.5);
+          }
+          case "square": {
+            const baseY = (Math.sin((i + frame) * 0.08) > 0 ? 1 : -1) * (rectHeight / 2.5);
+            const noiseY = noiseEnabled ? pseudoNoise(i, frame, 0.4, 8) : 0;
+            y = rectY + rectHeight / 2 + baseY + noiseY;
             ctx.lineWidth = 4;
             break;
-          case "sawtooth":
-            const sawPeriod = 120; // smaller = higher frequency
-            const normalizedSaw = ((i + frame) % sawPeriod) / sawPeriod; // 0 → 1
-            y = rectY + rectHeight / 2 + (normalizedSaw - 0.5) * (rectHeight / 2); // 0.5x amplitude
+          }
+          case "sawtooth": {
+            const sawPeriod = 120;
+            const normalizedSaw = ((i + frame) % sawPeriod) / sawPeriod;
+            const baseY = (normalizedSaw - 0.5) * (rectHeight / 2);
+            const noiseY = noiseEnabled ? pseudoNoise(i, frame, 0.4, 8) : 0;
+            y = rectY + rectHeight / 2 + baseY + noiseY;
             ctx.lineWidth = 4;
             break;
-          case "sumsine":
-            y = rectY + rectHeight / 2 
-                + Math.sin((i + frame) * 0.08) * (rectHeight / 3) 
-                + Math.sin((i + frame) * 0.04) * (rectHeight / 10)
-                + Math.sin((i + frame) * 0.02) * (rectHeight / 10);
+          }
+          case "sumsine": {
+            const baseY =
+              Math.sin((i + frame) * 0.08) * (rectHeight / 3) +
+              Math.sin((i + frame) * 0.04) * (rectHeight / 10) +
+              Math.sin((i + frame) * 0.02) * (rectHeight / 10);
+            const noiseY = noiseEnabled ? pseudoNoise(i, frame, 0.4, 8) : 0;
+            y = rectY + rectHeight / 2 + baseY + noiseY;
             ctx.lineWidth = 4;
             break;
+          }
           default:
             y = rectY + rectHeight / 2;
         }
@@ -195,13 +220,13 @@ export default function Oscilloscope() {
 			animationId = requestAnimationFrame(draw);
 		};
 
-    draw();
+    if (powerOn) draw();
 
     return () => {
       window.removeEventListener("resize", debouncedResize);
 			cancelAnimationFrame(animationId);
     };
-  }, [waveType]);
+  }, [waveType, noiseEnabled, powerOn]);
 
 	
 
@@ -213,12 +238,34 @@ export default function Oscilloscope() {
       
   
       {/* Oscilloscope background image */}
-			<img
-        src="/images/oscilloscope.png"
-        alt="Oscilloscope"
-				draggable="false"
-        className="w-full h-full object-contain"
-      />
+      <div className="relative w-full h-full">
+        <img
+          src="/images/oscilloscope.png"
+          alt="oscilloscope"
+          className={`absolute top-0 left-0 w-full h-full object-contain transition-opacity duration-500 ${
+            theme === "light" ? "opacity-100" : "opacity-0"
+          }`}
+          style={{
+            transition: 'opacity 0.5s ease, filter 0.5s ease',
+            filter: theme === 'dark' ? 'blur(1px)' : 'blur(0px)',
+          }}
+          draggable="false"
+        />
+        <img
+          src="/images/oscilloscope_dark.png"
+          alt="oscilloscope dark"
+          className={`absolute top-0 left-0 w-full h-full object-contain transition-opacity duration-500 ${
+            theme === "dark" ? "opacity-100" : "opacity-0"
+          }`}
+          style={{
+            transition: 'opacity 0.5s ease, filter 0.5s ease',
+            filter: theme === 'dark' ? 'blur(0px)' : 'blur(1px)',
+          }}
+          draggable="false"
+        />
+      </div>
+
+
 
 			{/* CRT background display animation */}
       <canvas
@@ -255,7 +302,9 @@ export default function Oscilloscope() {
         }}
       >
         <button
-          onClick={handleCycle}
+          onClick={() => {
+            setNoiseEnabled(prev => !prev);
+          }}
           className="w-full h-full z-250 rounded-full cursor-pointer"
           aria-label="Add noise"
           title="Click to add noise"
@@ -273,7 +322,7 @@ export default function Oscilloscope() {
         }}
       >
         <button
-          onClick={handleCycle}
+          onClick={() => setPowerOn(prev => !prev)}
           className="w-full h-full z-250 rounded-full cursor-pointer"
           aria-label="Power"
           title="Click to toggle power"

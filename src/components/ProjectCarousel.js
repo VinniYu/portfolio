@@ -5,7 +5,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 
-export default function ProjectCarousel() {
+export default function ProjectCarousel( { theme }) {
   const scrollContainerRef = useRef(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState(null);
@@ -53,7 +53,7 @@ export default function ProjectCarousel() {
   
 
   return (
-    <div className="relative flex flex-col items-center justify-center z-1000">
+    <div className="relative flex flex-col items-center mb-40 justify-center z-1000">
       {/* Top: Carousel */}
       <div className="flex items-center justify-center">
         <button
@@ -85,7 +85,33 @@ export default function ProjectCarousel() {
                 onClick={() => setSelectedIndex(index)}
               >
                 {/* folder background */}
-                <img src="/images/folder.png" alt="Folder" className="w-full h-auto" draggable="false" />
+                <div className="relative w-full h-[400px]">
+                  <img
+                    src="/images/folder.png"
+                    alt="folder"
+                    className={`absolute top-0 left-0 w-full h-full object-contain transition-opacity duration-500 ${
+                      theme === "light" ? "opacity-100" : "opacity-0"
+                    }`}
+                    style={{
+                      transition: 'opacity 0.5s ease, filter 0.5s ease',
+                      filter: theme === 'dark' ? 'blur(1px)' : 'blur(0px)',
+                    }}
+                    draggable="false"
+                  />
+                  <img
+                    src="/images/folder_dark.png"
+                    alt="folder dark"
+                    className={`absolute top-0 left-0 w-full h-full object-contain transition-opacity duration-500 ${
+                      theme === "dark" ? "opacity-100" : "opacity-0"
+                    }`}
+                    style={{
+                      transition: 'opacity 0.5s ease, filter 0.5s ease',
+                      filter: theme === 'dark' ? 'blur(0px)' : 'blur(1px)',
+                    }}
+                    draggable="false"
+                  />
+                </div>
+                {/* <img src="/images/folder.png" alt="Folder" className="w-full h-auto" draggable="false" /> */}
 
                 {/*  */}
                 <img
@@ -122,7 +148,7 @@ export default function ProjectCarousel() {
       </div>
 
       {/* Bottom: Page Indicators */}
-      <div className="mt-1 flex gap-2 bg-[#3f6565] px-4 py-1 rounded-lg">
+      <div className="mt-1 flex gap-2 bg-[#4d4d4d] px-4 py-1 rounded-lg">
         {Array.from({ length: totalPages }, (_, i) => (
           <span
             key={i}

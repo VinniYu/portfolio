@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export default function ContactForm() {
+export default function ContactForm( {theme} ) {
   const [status, setStatus] = useState(null);
 
   async function handleSubmit(e) {
@@ -26,20 +26,41 @@ export default function ContactForm() {
   }
 
   return (
-    <div className="relative w-[700px] h-auto text-[#f8f3e8] text-[30px] font-hillstown">
-      <img
-        src="/images/email_form.png"
-        alt="Email Form Background"
-        className="w-full h-auto"
-        draggable="false"
-      />
+    <div className="relative w-[850px] h-auto text-[#f8f3e8] text-[30px] font-hillstown z-600">
+      <div className="relative mb-170 w-full h-auto">
+        <img
+          src="/images/email_form.png"
+          alt="Email form light"
+          className={`absolute top-0 left-0 w-full h-auto object-contain transition-opacity duration-500 ${
+            theme === "light" ? "opacity-100" : "opacity-0"
+          }`}
+          style={{
+            transition: 'opacity 0.5s ease, filter 0.5s ease',
+            filter: theme === 'dark' ? 'blur(1px)' : 'blur(0px)',
+          }}
+          draggable="false"
+        />
+        <img
+          src="/images/email_form_dark.png"
+          alt="Email form dark"
+          className={`absolute top-0 left-0 w-full h-auto object-contain transition-opacity duration-500 ${
+            theme === "dark" ? "opacity-100" : "opacity-0"
+          }`}
+          style={{
+            transition: 'opacity 0.5s ease, filter 0.5s ease',
+            filter: theme === 'dark' ? 'blur(0px)' : 'blur(1px)',
+          }}
+          draggable="false"
+        />
+      </div>
+
 
       {/* Instagram stamp link */}
       <a
         href="https://www.instagram.com/vinni.yu/"
         target="_blank"
         rel="noopener noreferrer"
-        className="absolute top-[26px] right-[27px] w-[72px] h-[78px] z-10 group"
+        className="absolute top-[30px] right-[32px] w-[90px] h-[95px] z-10 group"
       > 
         <div className="w-full h-full relative corner-border">
           <span className="corner top-left"></span>
@@ -54,7 +75,7 @@ export default function ContactForm() {
         href="https://github.com/VinniYu"
         target="_blank"
         rel="noopener noreferrer"
-        className="absolute top-[38px] right-[114px] w-[72px] h-[78px] z-10 group"
+        className="absolute top-[47px] right-[138px] w-[90px] h-[95px] z-10 group"
       > 
         <div className="w-full h-full relative corner-border">
           <span className="corner top-left"></span>
@@ -69,7 +90,7 @@ export default function ContactForm() {
         href="https://www.linkedin.com/in/vinniyu/"
         target="_blank"
         rel="noopener noreferrer"
-        className="absolute top-[111px] right-[34px] w-[72px] h-[78px] z-10 group"
+        className="absolute top-[135px] right-[40px] w-[90px] h-[95px] z-10 group"
       > 
         <div className="w-full h-full relative corner-border">
           <span className="corner top-left"></span>
@@ -82,24 +103,24 @@ export default function ContactForm() {
       {/* Email form */}
       <form
         onSubmit={handleSubmit}
-        className="absolute top-[140px] left-[35px] flex flex-col gap-4 w-[550px] text-black"
+        className="absolute top-[160px] left-[35px] flex flex-col gap-4 w-[550px] text-black"
       >
         <input
           name="name" type="text" placeholder="Your name"
-          className="w-[280px] bg-[#decfb6] p-2 text-[20px] rounded"
+          className="w-[350px] bg-[var(--form-color)] p-2 text-[20px] rounded transition-colors duration-500"
           required
         />
         <input
           name="email" type="email" placeholder="Your email"
-          className="w-[280px] bg-[#decfb6] p-2 text-[20px] rounded"
+          className="w-[350px] bg-[var(--form-color)] p-2 text-[20px] rounded transition-colors duration-500"
           required
         />
         <textarea
           name="message" placeholder="Your message"
-          className="w-[280px] bg-[#decfb6] p-2 text-[20px] rounded"
+          className="w-[350px] h-[145px] bg-[var(--form-color)] p-2 text-[20px] rounded transition-colors duration-500"
           required
         />
-        <button className="w-[280px] group relative inline-flex h-14 items-center justify-center overflow-hidden
+        <button className="w-[350px] group relative inline-flex h-14 items-center justify-center overflow-hidden
                            rounded-md  bg-[#d45456] 
                            px-6 font-medium text-white transition-all 
                            [box-shadow:0px_4px_1px_#a3a3a3] active:translate-y-[2px] 
