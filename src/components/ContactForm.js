@@ -61,6 +61,7 @@ export default function ContactForm( {theme} ) {
         target="_blank"
         rel="noopener noreferrer"
         className="absolute top-[30px] right-[32px] w-[90px] h-[95px] z-10 group"
+        draggable="false"
       > 
         <div className="w-full h-full relative corner-border">
           <span className="corner top-left"></span>
@@ -76,6 +77,7 @@ export default function ContactForm( {theme} ) {
         target="_blank"
         rel="noopener noreferrer"
         className="absolute top-[47px] right-[138px] w-[90px] h-[95px] z-10 group"
+        draggable="false"
       > 
         <div className="w-full h-full relative corner-border">
           <span className="corner top-left"></span>
@@ -91,6 +93,7 @@ export default function ContactForm( {theme} ) {
         target="_blank"
         rel="noopener noreferrer"
         className="absolute top-[135px] right-[40px] w-[90px] h-[95px] z-10 group"
+        draggable="false"
       > 
         <div className="w-full h-full relative corner-border">
           <span className="corner top-left"></span>

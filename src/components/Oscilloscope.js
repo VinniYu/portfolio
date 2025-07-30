@@ -97,7 +97,7 @@ export default function Oscilloscope( { theme }) {
 		let animationId;
 
     const draw = () => {
-      if (!powerOn) return;
+      
 
       const rect = canvas.getBoundingClientRect();
       const realWidth = rect.width;
@@ -113,8 +113,8 @@ export default function Oscilloscope( { theme }) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // CRT display parameters
-			const rectX = 42  ;    // in logical units
-      const rectY = 55;
+			const rectX = 41  ;    // in logical units
+      const rectY = 77;
       const rectWidth = 250;
       const rectHeight = 190;
 
@@ -122,6 +122,8 @@ export default function Oscilloscope( { theme }) {
 			ctx.fillStyle = "#4e8780";
 			drawCRTRectangle(ctx, rectX, rectY, rectWidth, rectHeight, 20, 5);
 			ctx.save();
+
+      if (!powerOn) return;
 
 			// define the clipping path
 			ctx.beginPath();
@@ -156,8 +158,6 @@ export default function Oscilloscope( { theme }) {
 			ctx.beginPath();
 			const sampleCount = 400; // resolution of waveform
       const paddingX = 50;
-      
-      const noise = noiseEnabled ? (Math.random() - 0.5) * 10 : 0;
 
       for (let i = 0; i < sampleCount; i++) {
         const normX = i / (sampleCount - 1);
@@ -220,7 +220,7 @@ export default function Oscilloscope( { theme }) {
 			animationId = requestAnimationFrame(draw);
 		};
 
-    if (powerOn) draw();
+    draw();
 
     return () => {
       window.removeEventListener("resize", debouncedResize);
@@ -233,10 +233,8 @@ export default function Oscilloscope( { theme }) {
   return (
     <div 
       onContextMenu={(e) => e.preventDefault()}
-      className="relative w-full max-w-[550px] aspect-[3/2] mx-auto"
+      className="relative w-full max-w-[625px] aspect-[3/2] mx-auto"
     >
-      
-  
       {/* Oscilloscope background image */}
       <div className="relative w-full h-full">
         <img
@@ -277,10 +275,10 @@ export default function Oscilloscope( { theme }) {
       <div
         className="absolute"
         style={{
-          left: `${(630 / 1000) * 100}%`,     // 205 is x, 1000 is logical width
-          top: `${(103 / 666.67) * 100}%`,    // 120 is y, 666.67 is logical height
-          width: `${(145 / 1000) * 100}%`,    // button width
-          height: `${(145 / 666.67) * 100}%`,  // button height
+          left: `${(555 / 1000) * 100}%`,     // 205 is x, 1000 is logical width
+          top: `${(128 / 666.67) * 100}%`,    // 120 is y, 666.67 is logical height
+          width: `${(130 / 1000) * 100}%`,    // button width
+          height: `${(130 / 666.67) * 100}%`,  // button height
         }}
       >
         <button
@@ -295,17 +293,17 @@ export default function Oscilloscope( { theme }) {
       <div
         className="absolute"
         style={{
-          left: `${(642 / 1000) * 100}%`,     // 205 is x, 1000 is logical width
-          top: `${(285 / 666.67) * 100}%`,    // 120 is y, 666.67 is logical height
-          width: `${(125 / 1000) * 100}%`,    // button width
-          height: `${(125 / 666.67) * 100}%`,  // button height
+          left: `${(563 / 1000) * 100}%`,     // 205 is x, 1000 is logical width
+          top: `${(290 / 666.67) * 100}%`,    // 120 is y, 666.67 is logical height
+          width: `${(115 / 1000) * 100}%`,    // button width
+          height: `${(115 / 666.67) * 100}%`,  // button height
         }}
       >
         <button
           onClick={() => {
             setNoiseEnabled(prev => !prev);
           }}
-          className="w-full h-full z-250 rounded-full cursor-pointer"
+          className="w-full h-full z-250 rounded-full cursor-pointer "
           aria-label="Add noise"
           title="Click to add noise"
         />
@@ -315,10 +313,10 @@ export default function Oscilloscope( { theme }) {
       <div
         className="absolute"
         style={{
-          left: `${(665 / 1000) * 100}%`,     // 205 is x, 1000 is logical width
-          top: `${(470 / 666.67) * 100}%`,    // 120 is y, 666.67 is logical height
-          width: `${(80 / 1000) * 100}%`,    // button width
-          height: `${(80 / 666.67) * 100}%`,  // button height
+          left: `${(582 / 1000) * 100}%`,     // 205 is x, 1000 is logical width
+          top: `${(450 / 666.67) * 100}%`,    // 120 is y, 666.67 is logical height
+          width: `${(75 / 1000) * 100}%`,    // button width
+          height: `${(75 / 666.67) * 100}%`,  // button height
         }}
       >
         <button

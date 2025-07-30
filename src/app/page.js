@@ -33,6 +33,8 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState("home");
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [theme, setTheme] = useState("light");
+  const [showSection, setShowSection] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   // loading useEffect
   useEffect(() => {
@@ -58,6 +60,20 @@ export default function Home() {
     return () => controller.abort();
   }, []);
 
+  
+
+  useEffect(() => {
+    const checkMobile = () => {
+      const isMobileDevice = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      setIsMobile(isMobileDevice || window.innerWidth <= 768);
+    };
+
+    checkMobile(); // initial check
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   // theme useEffect
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -70,15 +86,17 @@ export default function Home() {
   // navbar useEffect
   useEffect(() => {
     const handleHashChange = () => {
-      const hash = window.location.hash.slice(1); // Remove the "#"
-      setActiveSection(hash || "home");
+      const hash = window.location.hash.slice(1);
+      setShowSection(false); // Start fade-out
+      setTimeout(() => {
+        setActiveSection(hash || "home");
+        setShowSection(true); // Start fade-in
+      }, 100); // Wait before switching
     };
 
-    // run on first load
     handleHashChange();
-
     window.addEventListener("hashchange", handleHashChange);
-    window.addEventListener("popstate", handleHashChange); // <-- handles back/forward
+    window.addEventListener("popstate", handleHashChange);
 
     return () => {
       window.removeEventListener("hashchange", handleHashChange);
@@ -92,6 +110,14 @@ export default function Home() {
         ? "1px 2px 0px rgba(212, 84, 86, 0.6)" // hover color always red
         : "1px 2px 0px var(--small-text-shadow)", 
   });
+
+  if (isMobile) {
+    return (
+      <main className="w-screen h-screen flex items-center justify-center bg-[var(--background-color)] text-[var(--text-color)] font-hillstown text-[30px] text-center px-10">
+        Mobile support coming soon...
+      </main>
+    );
+  }
 
   if (!imagesLoaded) {
     return (
@@ -164,60 +190,63 @@ export default function Home() {
 
       {activeSection === "home" && (
         <>
-          <h1 className="m-0 text-[200px] leading-none font-dalton tracking-normal big-text-shadow">
-            VINNI YU
-          </h1>
-          <p className="mb-80 text-[35px] font-hillstown small-text-shadow">
-            Software · Embedded · Graphics
-          </p>
-          
-          <div className="absolute bottom-[70px] w-full flex justify-center z-250">
-            <Oscilloscope theme={theme}/>
+          <div className={`fade-section ${showSection ? "show" : ""}`}>
+            <h1 className="m-0 text-[200px] leading-none font-dalton tracking-normal big-text-shadow">
+              VINNI YU
+            </h1>
+            <p className="mb-80 text-[35px] font-hillstown small-text-shadow">
+              Software · Embedded · Graphics
+            </p>
+          </div>
+
+          <div className="absolute bottom-[49px] w-full flex justify-center z-250">
+            <Oscilloscope theme={theme} />
           </div>
         </>
       )}
 
       {activeSection === "about" && (
-        <>     
-          <div className="max-w-[1100px] mb-35 ml-[-250px] px-10 pr-[100px]">   
-            <h1 className="text-[120px] leading-none font-dalton tracking-normal big-text-shadow">
-              ABOUT ME
-            </h1>
-
-            <div className="text-[var(--text-color)] text-[27px] font-hillstown text-justify small-text-shadow">
-              I'm Vinni Yu, a developer studying Computer Science and Electrical Engineering at Yale. 
-              I focus on low-level systems, computer graphics, and AI 
-              — building projects like GPU-based simulations, trading engines, 
-              and neural tools that prioritize clarity, performance, and thoughtful design.
+        <>
+          <div className={`fade-section ${showSection ? "show" : ""}`}>
+            <div className="max-w-[1100px] mb-35 ml-[-250px] px-10 pr-[100px]">
+              <h1 className="text-[120px] leading-none font-dalton tracking-normal big-text-shadow">
+                ABOUT ME
+              </h1>
+              <div className="text-[var(--text-color)] text-[27px] font-hillstown text-justify small-text-shadow">
+                I'm Vinni Yu, a developer studying Computer Science and Electrical Engineering at Yale. 
+                I focus on low-level systems, computer graphics, and AI 
+                — building projects like GPU-based simulations, trading engines, 
+                and neural tools that prioritize clarity, performance, and thoughtful design.
+              </div>
             </div>
           </div>
 
           <img
             src="/images/iced_americano.png"
             alt="Americano"
-            className="fixed bottom-[49px] right-[35px] w-[350px] h-auto z-500"
-          />
+            className="fixed bottom-[48px] right-[35px] w-[350px] h-auto z-500"
+            draggable="false"
+          />  
         </>
       )}
 
       {activeSection === "resume" && (
-        <div className="w-full h-screen flex flex-col items-center justify-center px-4 z-1">
-          {/* Resume viewer */}
-          <div className="w-[900px] h-[600px] mb-55 border-4 border-[#f8f3e8] shadow-2xl overflow-hidden rounded-lg">
+        <div className={`fade-section ${showSection ? "show" : ""} fixed inset-0 flex flex-col items-center justify-center px-4 z-1`}>
+          <div className="w-[900px] h-[600px] mb-30 border-4 border-[#f8f3e8] shadow-2xl overflow-hidden rounded-lg">
             <iframe
               src="/resume.pdf"
               title="Resume PDF"
               className="w-full h-full"
             />
           </div>
-
-          
         </div>
       )}
 
       {activeSection === "projects" && (
-        <div className="w-full mt-20">
-          <ProjectCarousel theme={theme} />
+        <>
+          <div className={`fade-section ${showSection ? "show" : ""} fixed inset-0 z-1000`}>
+            <ProjectCarousel theme={theme} /> 
+          </div>
 
           <div className="fixed right-[10px] bottom-[387px] z-100 w-[320px] h-auto">
             <div className="relative w-full h-full">
@@ -247,21 +276,18 @@ export default function Home() {
               />
             </div>
           </div>
-
-        </div>
-      )}
-
-      {activeSection === "contact" && (
-        <>
-          <ContactForm theme={theme} />
-          {/* <MusicPlayer theme={theme} /> */}
         </>
       )}
 
+      {activeSection === "contact" && (
+        <div className={`fade-section ${showSection ? "show" : ""}`}>
+          <ContactForm theme={theme} />
+          {/* <MusicPlayer theme={theme} /> */}
+        </div>
+      )}
 
-      <footer className="fixed bottom-0 w-full bg-[var(--footer-color)] py-17 shadow-inner shadow-[var(--footer-shadow)] z-0">
 
-      </footer>
+      <div className="fixed bottom-0 w-[120%] bg-[var(--footer-color)] py-17 shadow-inner text-[#e4cc82] footer-halftone transition z-0 -skew-x-30" />
     </main>
   );
 }

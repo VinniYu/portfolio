@@ -57,6 +57,7 @@ body, footer {
   --footer-color: #ffeda9;
   --footer-shadow: #e4cc82;
   --form-color: #decfb6;
+  --dots: #e4cc82;
 }
 
 [data-theme="dark"] {
@@ -69,6 +70,7 @@ body, footer {
   --footer-color: #c9973d;
   --footer-shadow: #a67b2e;
   --form-color: #7a7a7a;
+  --dots: #a67b2e;
 }
 
 body {
@@ -136,4 +138,33 @@ body {
     background-size: 20px 20px;
     pointer-events: none;
   }
+}
+
+.fade-section {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.fade-section.show {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+html, body {
+  overflow: visible;
+}
+
+.footer-halftone {
+  background-image: radial-gradient(currentColor 1px, transparent 1px);
+  background-size: 10px 10px;
+  opacity: 10.;
+  pointer-events: none;
 }
