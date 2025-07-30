@@ -6,6 +6,7 @@ import Oscilloscope from "@/components/Oscilloscope";
 import ContactForm from "@/components/ContactForm";
 import MusicPlayer from "@/components/MusicPlayer";
 import ProjectCarousel from "@/components/ProjectCarousel";
+import NextImage from "next/image";
 
 const preloadImages = [
   "/images/email_form.png",
@@ -212,8 +213,9 @@ export default function Home() {
               <h1 className="text-[120px] leading-none font-dalton tracking-normal big-text-shadow">
                 ABOUT ME
               </h1>
+
               <div className="text-[var(--text-color)] text-[27px] font-hillstown text-justify small-text-shadow">
-                I&apos;m Vinni Yu, a developer studying Computer Science and Electrical Engineering at Yale. 
+                I&lsquo;m Vinni Yu, a developer studying Computer Science and Electrical Engineering at Yale. 
                 I focus on low-level systems, computer graphics, and AI 
                 — building projects like GPU-based simulations, trading engines, 
                 and neural tools that prioritize clarity, performance, and thoughtful design.
