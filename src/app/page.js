@@ -213,7 +213,7 @@ export default function Home() {
                 ABOUT ME
               </h1>
               <div className="text-[var(--text-color)] text-[27px] font-hillstown text-justify small-text-shadow">
-                I'm Vinni Yu, a developer studying Computer Science and Electrical Engineering at Yale. 
+                I&apos;m Vinni Yu, a developer studying Computer Science and Electrical Engineering at Yale. 
                 I focus on low-level systems, computer graphics, and AI 
                 — building projects like GPU-based simulations, trading engines, 
                 and neural tools that prioritize clarity, performance, and thoughtful design.
