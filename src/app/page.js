@@ -200,7 +200,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="absolute bottom-[49px] w-full flex justify-center z-250">
+          <div className="absolute bottom-[23px] w-full flex justify-center z-250">
             <Oscilloscope theme={theme} />
           </div>
         </>
@@ -226,7 +226,7 @@ export default function Home() {
           <img
             src="/images/iced_americano.png"
             alt="Americano"
-            className="fixed bottom-[48px] right-[35px] w-[350px] h-auto z-500"
+            className="fixed bottom-[8px] right-[35px] w-[350px] h-auto z-500"
             draggable="false"
           />  
         </>
@@ -234,7 +234,7 @@ export default function Home() {
 
       {activeSection === "resume" && (
         <div className={`fade-section ${showSection ? "show" : ""} fixed inset-0 flex flex-col items-center justify-center px-4 z-1`}>
-          <div className="w-[900px] h-[600px] mb-30 border-4 border-[#f8f3e8] shadow-2xl overflow-hidden rounded-lg">
+          <div className="w-[720px] h-[480px] mb-30 border-4 border-[#f8f3e8] shadow-2xl overflow-hidden rounded-lg">
             <iframe
               src="/resume.pdf"
               title="Resume PDF"
@@ -250,7 +250,7 @@ export default function Home() {
             <ProjectCarousel theme={theme} /> 
           </div>
 
-          <div className="fixed right-[10px] bottom-[387px] z-100 w-[320px] h-auto">
+          <div className="fixed right-[10px] bottom-[347px] z-100 w-[320px] h-auto">
             <div className="relative w-full h-full">
               <img
                 src="/images/file_cabinet.png"
@@ -289,7 +289,7 @@ export default function Home() {
       )}
 
 
-      <div className="fixed bottom-0 w-[120%] bg-[var(--footer-color)] py-17 shadow-inner text-[#e4cc82] footer-halftone transition z-0 -skew-x-30" />
+      <div className="fixed bottom-0 w-[120%] bg-[var(--footer-color)] py-12 shadow-inner text-[#e4cc82] footer-halftone transition z-0 -skew-x-30" />
     </main>
   );
 }

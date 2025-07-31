@@ -26,7 +26,7 @@ export default function ContactForm( {theme} ) {
   }
 
   return (
-    <div className="relative w-[850px] h-auto text-[#f8f3e8] text-[30px] font-hillstown z-600">
+    <div className="relative w-[700px] h-auto text-[#f8f3e8] text-[30px] font-hillstown z-600">
       <div className="relative mb-170 w-full h-auto">
         <img
           src="/images/email_form.png"
@@ -60,7 +60,7 @@ export default function ContactForm( {theme} ) {
         href="https://www.instagram.com/vinni.yu/"
         target="_blank"
         rel="noopener noreferrer"
-        className="absolute top-[30px] right-[32px] w-[90px] h-[95px] z-10 group"
+        className="absolute top-[25px] right-[28px] w-[72px] h-[80px] z-10 group"
         draggable="false"
       > 
         <div className="w-full h-full relative corner-border">
@@ -76,7 +76,7 @@ export default function ContactForm( {theme} ) {
         href="https://github.com/VinniYu"
         target="_blank"
         rel="noopener noreferrer"
-        className="absolute top-[47px] right-[138px] w-[90px] h-[95px] z-10 group"
+        className="absolute top-[38px] right-[114px] w-[72px] h-[80px] z-10 group"
         draggable="false"
       > 
         <div className="w-full h-full relative corner-border">
@@ -92,7 +92,7 @@ export default function ContactForm( {theme} ) {
         href="https://www.linkedin.com/in/vinniyu/"
         target="_blank"
         rel="noopener noreferrer"
-        className="absolute top-[135px] right-[40px] w-[90px] h-[95px] z-10 group"
+        className="absolute top-[110px] right-[35px] w-[72px] h-[80px] z-10 group"
         draggable="false"
       > 
         <div className="w-full h-full relative corner-border">
@@ -106,24 +106,24 @@ export default function ContactForm( {theme} ) {
       {/* Email form */}
       <form
         onSubmit={handleSubmit}
-        className="absolute top-[160px] left-[35px] flex flex-col gap-4 w-[550px] text-black"
+        className="absolute top-[130px] left-[35px] flex flex-col gap-4 w-[480px] text-black"
       >
         <input
           name="name" type="text" placeholder="Your name"
-          className="w-[350px] bg-[var(--form-color)] p-2 text-[20px] rounded transition-colors duration-500"
+          className="w-[282px] bg-[var(--form-color)] p-2 text-[20px] rounded transition-colors duration-500"
           required
         />
         <input
           name="email" type="email" placeholder="Your email"
-          className="w-[350px] bg-[var(--form-color)] p-2 text-[20px] rounded transition-colors duration-500"
+          className="w-[282px] bg-[var(--form-color)] p-2 text-[20px] rounded transition-colors duration-500"
           required
         />
         <textarea
           name="message" placeholder="Your message"
-          className="w-[350px] h-[145px] bg-[var(--form-color)] p-2 text-[20px] rounded transition-colors duration-500"
+          className="w-[282px] h-[90px] bg-[var(--form-color)] p-2 text-[20px] rounded transition-colors duration-500"
           required
         />
-        <button className="w-[350px] group relative inline-flex h-14 items-center justify-center overflow-hidden
+        <button className="w-[282px] group relative inline-flex h-14 items-center justify-center overflow-hidden
                            rounded-md  bg-[#d45456] 
                            px-6 font-medium text-white transition-all 
                            [box-shadow:0px_4px_1px_#a3a3a3] active:translate-y-[2px] 

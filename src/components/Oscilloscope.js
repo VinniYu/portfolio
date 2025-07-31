@@ -113,10 +113,10 @@ export default function Oscilloscope( { theme }) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // CRT display parameters
-			const rectX = 41  ;    // in logical units
-      const rectY = 77;
-      const rectWidth = 250;
-      const rectHeight = 190;
+			const rectX = 35;    // in logical units
+      const rectY = 66;
+      const rectWidth = 210;
+      const rectHeight = 160;
 
 			// draw CRT rectangle fill BEFORE the wave
 			ctx.fillStyle = "#4e8780";
@@ -233,7 +233,7 @@ export default function Oscilloscope( { theme }) {
   return (
     <div 
       onContextMenu={(e) => e.preventDefault()}
-      className="relative w-full max-w-[625px] aspect-[3/2] mx-auto"
+      className="relative w-full max-w-[525px] aspect-[3/2] mx-auto"
     >
       {/* Oscilloscope background image */}
       <div className="relative w-full h-full">
