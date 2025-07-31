@@ -282,7 +282,7 @@ export default function Home() {
       )}
 
       {activeSection === "contact" && (
-        <div className={`fade-section ${showSection ? "show" : ""}`}>
+        <div className={`fade-section ${showSection ? "show" : ""} fixed inset-0 mt-30 flex items-center justify-center z-10`}>
           <ContactForm theme={theme} />
           {/* <MusicPlayer theme={theme} /> */}
         </div>
