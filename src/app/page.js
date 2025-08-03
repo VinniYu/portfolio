@@ -6,7 +6,7 @@ import Oscilloscope from "@/components/Oscilloscope";
 import ContactForm from "@/components/ContactForm";
 import MusicPlayer from "@/components/MusicPlayer";
 import ProjectCarousel from "@/components/ProjectCarousel";
-import NextImage from "next/image";
+import MobilePage from "@/components/Mobile";
 
 const preloadImages = [
   "/images/email_form.png",
@@ -114,9 +114,7 @@ export default function Home() {
 
   if (isMobile) {
     return (
-      <main className="w-screen h-screen flex items-center justify-center bg-[var(--background-color)] text-[var(--text-color)] font-hillstown text-[30px] text-center px-10">
-        Mobile support coming soon...
-      </main>
+      <MobilePage />
     );
   }
 
