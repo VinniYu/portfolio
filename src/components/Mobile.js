@@ -1,7 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function MobilePage() {
   const [activeSection, setActiveSection] = useState(null);
+
+	useEffect(() => {
+		document.body.style.overflow = "hidden";
+		document.documentElement.style.overflow = "hidden";
+
+		return () => {
+			document.body.style.overflow = "";
+			document.documentElement.style.overflow = "";
+		};
+	}, []);
 
   if (activeSection === "about") {
     return (
@@ -49,10 +59,10 @@ export default function MobilePage() {
 
   // Default homepage grid
   return (
-    <main className="relative min-h-screen overflow-hidden flex flex-col items-center justify-center crosshatch-bg z-0 font-hillstown">
+    <main className="h-screen w-screen overflow-hidden flex flex-col items-center crosshatch-bg font-hillstown">
       {/* monitor image */}
-      <div className="relative px-3">
-        <div className="absolute inset-0 z-10 " />
+      <div className="w-full flex justify-center pt-4 x-translate-2">
+        <div className="absolute z-10 " />
         <img src="images/mobile/monitor.png" className="relative z-10" />
       </div>
 
