@@ -30,12 +30,19 @@ export default function MobilePage() {
 
   if (activeSection === "about") {
     return (
-      <main className="relative min-h-screen overflow-hidden flex flex-col items-center p-2 mt-4 crosshatch-bg">
-        <button onClick={() => setActiveSection(null)} className="mb-4 underline">Back</button>
+      <main className="min-h-screen overflow-hidden flex flex-col items-center p-2 mt-4 crosshatch-bg">
+        <div className="w-full mb-3">
+          <button
+            onClick={() => setActiveSection(null)}
+            className="bg-[#d96050] text-[#fcefc7] text-sm font-bold ml-3 px-3 py-2 rounded-md shadow-md cursor-pointer"
+          >
+            Back
+          </button>
+        </div>
         
 				<img src="images/mobile/about_inside.png" className="translate-x-1" />
 
-        <div className="relative w-[250%] h-screen bg-[var(--footer-color)] mt-3 z-1 text-[#e4cc82] footer-halftone -skew-x-30" />
+        <div className="relative w-[250%] h-screen bg-[var(--footer-color)] mt-2 z-1 text-[#e4cc82] footer-halftone -skew-x-30" />
           
 
       </main>
@@ -45,9 +52,16 @@ export default function MobilePage() {
   if (activeSection === "resume") {
     return (
       <main className="min-h-screen p-6 font-roboto crosshatch-bg">
-        <button onClick={() => setActiveSection(null)} className="mb-4 underline">← Back</button>
+        <div className="w-full mb-1">
+          <button
+            onClick={() => setActiveSection(null)}
+            className="bg-[#d96050] text-[#fcefc7] text-sm font-bold ml-1 px-3 py-2 rounded-md shadow-md cursor-pointer"
+          >
+            Back
+          </button>
+        </div>
         
-        <div className="relative w-full max-w-[650px] mx-auto mt-6 px-2">
+        <div className="relative w-full max-w-[650px] mx-auto mt-3 px-2">
           {/* vertical line */}
           <div className="absolute left-2 top-3 w-1 h-full bg-[#3b645d]"></div>
 
@@ -176,7 +190,14 @@ export default function MobilePage() {
   if (activeSection === "projects") {
     return (
       <main className="relative min-h-screen overflow-hidden flex flex-col items-center z-0 mt-4 crosshatch-bg">
-        <button onClick={() => setActiveSection(null)} className="mb-4 underline">← Back</button>
+        <div className="w-full mb-3">
+          <button
+            onClick={() => setActiveSection(null)}
+            className="bg-[#d96050] text-[#fcefc7] text-sm font-bold ml-5 px-3 py-2 rounded-md shadow-md cursor-pointer"
+          >
+            Back
+          </button>
+        </div>
         
         <div className="w-[90%] z-10 translate-x-1">
 					<img src="images/mobile/projects_inside.png"/>
@@ -189,7 +210,14 @@ export default function MobilePage() {
   if (activeSection === "contact") {
     return (
       <main className="relative min-h-screen overflow-hidden flex flex-col items-center z-0 mt-4 crosshatch-bg">
-        <button onClick={() => setActiveSection(null)} className="mb-4 underline">Back</button>
+        <div className="w-full mb-3">
+          <button
+            onClick={() => setActiveSection(null)}
+            className="bg-[#d96050] text-[#fcefc7] text-sm font-bold ml-5 px-3 py-2 rounded-md shadow-md cursor-pointer"
+          >
+            Back
+          </button>
+        </div>
         
 				<div className="w-[110%] z-10">
 					<img src="images/mobile/contact_inside.png"/>

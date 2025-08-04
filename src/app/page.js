@@ -28,6 +28,16 @@ const preloadImages = [
   "/images/spindle_dark.png",
   "/images/toggle.png",
   "/images/toggle_dark.png",
+  // mobile images
+  "/images/about_inside.png",
+  "/images/about.png",
+  "/images/contact_inside.png",
+  "/images/contact.png",
+  "/images/monitor.png",
+  "/images/panel.png",
+  "/images/projects_inside.png",
+  "/images/projects.png",
+  "/images/resume.png",
 ];
 
 export default function Home() {
