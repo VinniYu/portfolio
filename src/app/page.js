@@ -8,6 +8,7 @@ import MusicPlayer from "@/components/MusicPlayer";
 import ProjectCarousel from "@/components/ProjectCarousel";
 import MobilePage from "@/components/Mobile";
 
+
 const preloadImages = [
   "/images/email_form.png",
   "/images/email_form_dark.png",
