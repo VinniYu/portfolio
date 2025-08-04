@@ -15,7 +15,7 @@ export default function MobilePage() {
 
   if (activeSection === "about") {
     return (
-      <main className="relative min-h-screen overflow-hidden flex flex-col items-center justify-center p-2 translate-x-1 crosshatch-bg">
+      <main className="relative min-h-screen overflow-hidden flex flex-col items-center p-2 mt-4 translate-x-1 crosshatch-bg">
         <button onClick={() => setActiveSection(null)} className="mb-4 underline">Back</button>
         
 				<img src="images/mobile/about_inside.png"/>
@@ -61,19 +61,19 @@ export default function MobilePage() {
   return (
     <main className="h-screen w-screen overflow-hidden flex flex-col items-center crosshatch-bg font-hillstown">
       {/* monitor image */}
-      <div className="w-full flex justify-center pt-4 x-translate-2">
+      <div className="w-[80%] flex justify-center pt-4 x-translate-2">
         <div className="absolute z-10 " />
         <img src="images/mobile/monitor.png" className="relative z-10" />
       </div>
 
       {/* connecting rods */}
-      <div className="fixed w-screen h-screen flex justify-center items-center z-5">
-        <div className="w-[25px] h-[200px] bg-[#4e7464] flex-shrink-0 mr-50" />
-        <div className="w-[25px] h-[200px] bg-[#4e7464] flex-shrink-0" />
+      <div className="fixed w-screen h-screen flex justify-center translate-y-40 z-5">
+        <div className="w-[25px] h-[400px] bg-[#4e7464] flex-shrink-0 mr-50" />
+        <div className="w-[25px] h-[400px] bg-[#4e7464] flex-shrink-0" />
       </div>
 
       {/* navigation panel */}
-      <div className="relative px-2 mt-2 w-fit h-fit">
+      <div className="relative px-2 mt-2 w-fit h-fit x-translate-5">
         <img src="images/mobile/panel.png" className="relative z-10" />
 
         <div className="absolute top-0 left-0 w-full h-full z-20 grid grid-cols-2 grid-rows-2 gap-0 p-7">
