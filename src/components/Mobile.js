@@ -7,26 +7,26 @@ const roboto = Roboto({
   variable: "--font-roboto",
 });
 
-
 export default function MobilePage() {
   const [activeSection, setActiveSection] = useState(null);
 
 	useEffect(() => {
-  const shouldDisableScroll = activeSection !== "resume";
+    const enableScroll = activeSection === "resume" || activeSection === "projects";
 
-  if (shouldDisableScroll) {
-    document.body.style.overflow = "hidden";
-    document.documentElement.style.overflow = "hidden";
-  } else {
-    document.body.style.overflow = "auto";
-    document.documentElement.style.overflow = "auto";
-  }
+    if (enableScroll) {
+      document.body.style.overflow = "auto";
+      document.documentElement.style.overflow = "auto";
+    } 
+    else {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    }
 
-  return () => {
-    document.body.style.overflow = "";
-    document.documentElement.style.overflow = "";
-  };
-}, [activeSection]);
+    return () => {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
+  }, [activeSection]);
 
   if (activeSection === "about") {
     return (
@@ -188,8 +188,57 @@ export default function MobilePage() {
   }
 
   if (activeSection === "projects") {
+    const projects = [
+      {
+        title: "PCI-SPH Fluid Simulation",
+        subtitle: "C++ · OpenGL · GLSL Compute",
+        desc: "Real-time 2D and 3D fluid simulation engine using the Predictive-Corrective Incompressible SPH method in C++ and OpenGL compute shaders, achieving visually plausible interactions with up to 50,000 particles",
+        image: "images/mobile/projects_inside.png",
+        preview: "projects/sph/preview.png",
+        href: "#",
+        tags: ["Graphics", "GPU", "Numerical Methods"],
+      },
+      {
+        title: "Ray Tracer Engine",
+        subtitle: "C++ · Graphics",
+        desc: "Custom physically-based ray tracer in C++ for CPSC 478/578, implementing intersections, Phong shading, shadows, reflections, refractions, and procedural Mandelbrot texturing.",
+        image: "images/mobile/projects_inside.png",
+        preview: "projects/raytracer/preview.png",
+        href: "#",
+        tags: ["C++", "Rendering", "Graphics"],
+      },
+      {
+        title: "EfficientNet Chess Engine",
+        subtitle: "Python · Deep Learning · Computer Vision",
+        desc: "Built a real-time chessboard recognition and move recommendation system using EfficientNet-B0 for square classification and Stockfish for optimal move prediction.",
+        image: "images/mobile/projects_inside.png",
+        preview: "projects/chess/preview.png",
+        href: "#",
+        tags: ["Python", "EfficientNet", "Stockfish", "Computer Vision", "Deep Learning"],
+      },
+      {
+        title: "Sun Glare Removal",
+        subtitle: "Python · Computer Vision",
+        desc: "Built a computer vision pipeline to detect and remove sun glare from outdoor images using mask generation, texture quilting, and deep learning inpainting models.",
+        image: "images/mobile/projects_inside.png",
+        preview: "projects/sunglare/preview.png",
+        href: "#",
+        tags: ["Python", "Computer Vision", "Image Processing", "Deep Learning"],
+      },
+
+
+
+      ];
+
+    // One shared overlay position for all cards (percentages relative to the PNG)
+    const OVERLAY = {
+      top: 12,   // % from top of image
+      left: 16,  // % from left of image
+      width: 72, // % of image width for the text block
+    };
+
     return (
-      <main className="relative min-h-screen overflow-hidden flex flex-col items-center z-0 mt-4 crosshatch-bg">
+      <main className="relative min-h-screen flex flex-col items-center z-0 mt-4 crosshatch-bg">
         <div className="w-full mb-3">
           <button
             onClick={() => setActiveSection(null)}
@@ -198,14 +247,67 @@ export default function MobilePage() {
             Back
           </button>
         </div>
-        
-        <div className="w-[90%] z-10 translate-x-1">
-					<img src="images/mobile/projects_inside.png"/>
-				</div>
 
+        {/* Page width: image takes a percentage of screen width */}
+        <div className="w-[85%] space-y-6">
+          {projects.map((p, i) => (
+            <a key={i} href={p.href} className="block">
+              <div className="relative w-full">
+                {/* Responsive image */}
+                <img
+                  src={p.image}
+                  alt={p.title}
+                  className="w-full h-auto block"
+                  draggable="false"
+                />
+
+                {/* Plain text overlay */}
+                <div
+                  className="absolute text-center"
+                  style={{
+                    top: `${OVERLAY.top}%`,
+                    left: `${OVERLAY.left}%`,
+                    width: `${OVERLAY.width}%`,
+                  }}
+                >
+                  <h3 className="font-bold "
+                      style={{ fontSize: 'clamp(18px, 4vw, 18px)', color: '#fcefc7' }}>
+                    {p.title}
+                  </h3>
+                  <p style={{ fontSize: 'clamp(14px, 3.2vw, 14px)', color: '#fce2c2', opacity: 0.85 }}>
+                    {p.subtitle}
+                  </p>
+                  <p
+                    className="mt-4"
+                    style={{
+                      fontSize: 'clamp(13px, 3vw, 13px)',
+                      color: '#fcefc7',
+                      textAlign: 'justify',
+                      textJustify: 'inter-word',
+                    }}
+                  >
+                    {p.desc}
+                  </p>
+
+                  {p.preview && (
+                    <img
+                      src={p.preview}
+                      alt={`${p.title} preview`}
+                      className="mt-3 w-auto h-[90px] mx-auto rounded-md"
+                      draggable="false"
+                    />
+                  )}
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
       </main>
     );
   }
+
+
+
 
   if (activeSection === "contact") {
     return (
